@@ -7,7 +7,6 @@ orbs:
 
 jobs:
   build: # name of your job
-    name: Build & Test
     executor: win/default # executor type
 
     steps:
