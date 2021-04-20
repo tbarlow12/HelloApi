@@ -44,6 +44,14 @@ jobs:
           name: Build Release
           command: |
             msbuild HelloApi\HelloApi.sln /p:Configuration=Release
+  deploy:
+    description: Deploy Application
+    executor: win/default
+
+    steps:
+      - checkout:
+          path: C:\Users\circleci\project
+      - run: Write-Host "Deploy App"
 
 workflows:
   version: 2
@@ -51,9 +59,11 @@ workflows:
     jobs:
       - build_and_test
       - build_release
+          requires:
+            - build_and_test
       - deploy:
           requires:
-            - build
+            - build_release
           filters:
             branches:
               only: master
