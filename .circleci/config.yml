@@ -7,6 +7,7 @@ orbs:
 
 jobs:
   build: # name of your job
+    name: Build & Test
     executor: win/default # executor type
 
     steps:
@@ -19,18 +20,6 @@ jobs:
           command: |
             nuget restore HelloApi\HelloApi.sln
             msbuild HelloApi\HelloApi.sln /p:Configuration=Debug
-      - run:
-          name: Look at files
-          command: |
-            dir
-            cd "HelloApi"
-            dir
-            cd "HelloApi.Tests"
-            dir
-            cd "bin"
-            dir
-            cd "Debug"
-            dir
       - run:
           name: Run Tests
           command: |
