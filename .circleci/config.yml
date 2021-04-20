@@ -14,7 +14,7 @@ jobs:
       # virtual machine environment
       - checkout:
           path: C:\Users\circleci\project
-      - run: msbuild -t:restore;build HelloApi\HelloApi.sln /p:Configuration=Debug
+      - run: msbuild HelloApi\HelloApi.sln -t:restore;build /p:Configuration=Debug
       - run:
           name: Look at files
           command: |
