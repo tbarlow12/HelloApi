@@ -41,6 +41,9 @@ jobs:
       - checkout:
           path: C:\Users\circleci\project
       - run:
+          name: Nuget Restore
+          command: nuget restore HelloApi\HelloApi.sln
+      - run:
           name: Build Release
           command: |
             msbuild HelloApi\HelloApi.sln /p:Configuration=Release
