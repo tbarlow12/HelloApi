@@ -12,8 +12,11 @@ jobs:
     steps:
       # Commands are run in a Windows
       # virtual machine environment
-      - checkout
+      - checkout:
+          path: C:\Users\circleci\project
       - run: Write-Host 'Hello, Windows'
       - run: dir
       - run: msbuild -t:restore HelloApi\HelloApi.sln
-      - run: mstest
+      - run:
+          name: Run Tests
+          command: vstest
