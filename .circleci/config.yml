@@ -15,4 +15,4 @@ jobs:
       - checkout
       - run: Write-Host 'Hello, Windows'
       - run: dir
-      - run: msbuild
+      - run: msbuild HelloApi\HelloApi.sln
