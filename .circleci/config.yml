@@ -27,10 +27,6 @@ jobs:
           command: |
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
             .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
-      - run:
-          name: Build Release
-          command: |
-            msbuild HelloApi\HelloApi.sln /p:Configuration=Release
   build_release: # name of your job  
     description: Build Release
     executor: win/default # executor type
@@ -69,4 +65,4 @@ workflows:
             - build_release
           filters:
             branches:
-              only: master
+              only: tabarlow/circle-ci
