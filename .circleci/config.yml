@@ -6,7 +6,7 @@ orbs:
   win: circleci/windows@2.2.0
 
 jobs:
-  build-and-test: # name of your job
+  build_and_test: # name of your job
     description: Build & Test
     executor: win/default # executor type
 
@@ -31,7 +31,7 @@ jobs:
           name: Build Release
           command: |
             msbuild HelloApi\HelloApi.sln /p:Configuration=Release
-  build-release: # name of your job  
+  build_release: # name of your job  
     description: Build Release
     executor: win/default # executor type
 
@@ -47,10 +47,10 @@ jobs:
 
 workflows:
   version: 2
-  build-and-deploy:
+  build_and_deploy:
     jobs:
-      - build-and-test
-      - build-release
+      - build_and_test
+      - build_release
       - deploy:
           requires:
             - build
