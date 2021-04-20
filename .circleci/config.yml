@@ -6,8 +6,8 @@ orbs:
   win: circleci/windows@2.2.0
 
 jobs:
-  description: Build & Test
-  build: # name of your job
+  build-and-test: # name of your job
+    description: Build & Test
     executor: win/default # executor type
 
     steps:
@@ -31,3 +31,29 @@ jobs:
           name: Build Release
           command: |
             msbuild HelloApi\HelloApi.sln /p:Configuration=Release
+  build-release: # name of your job  
+    description: Build Release
+    executor: win/default # executor type
+
+    steps:
+      # Commands are run in a Windows
+      # virtual machine environment
+      - checkout:
+          path: C:\Users\circleci\project
+      - run:
+          name: Build Release
+          command: |
+            msbuild HelloApi\HelloApi.sln /p:Configuration=Release
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build-and-test
+      - build-release
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
