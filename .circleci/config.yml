@@ -19,7 +19,7 @@ jobs:
           name: Recursive dir
           command: |
             cd HelloApi
-            dir /b /s /a
+            dir /b /s
       - run:
           name: Run Tests
           command: |
