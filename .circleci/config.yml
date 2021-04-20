@@ -65,4 +65,4 @@ workflows:
             - build_release
           filters:
             branches:
-              only: tabarlow/circle-ci
+              only: master
