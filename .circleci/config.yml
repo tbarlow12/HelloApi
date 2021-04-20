@@ -16,6 +16,18 @@ jobs:
           path: C:\Users\circleci\project
       - run: msbuild -t:restore HelloApi\HelloApi.sln /p:Configuration=Debug
       - run:
+          name: Look at files
+          command: |
+            dir
+            cd "HelloApi"
+            dir
+            cd "HelloApi.Tests"
+            dir
+            cd "bin"
+            dir
+            cd "Debug"
+            dir
+      - run:
           name: Run Tests
           command: |
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
