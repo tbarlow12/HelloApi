@@ -14,15 +14,9 @@ jobs:
       # virtual machine environment
       - checkout:
           path: C:\Users\circleci\project
-      - run: msbuild -t:restore HelloApi\HelloApi.sln
-      - run:
-          name: Recursive dir
-          command: |
-            cd HelloApi
-            dir /b /s
+      - run: msbuild -t:restore HelloApi\HelloApi.sln /p:Configuration=Debug
       - run:
           name: Run Tests
           command: |
-            msbuild -t:restore HelloApi\HelloApi.Tests\HelloApi.Tests.csproj
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
-            .\vstest.console.exe C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll
+            .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
