@@ -15,12 +15,18 @@ jobs:
       - checkout:
           path: C:\Users\circleci\project
       - run:
-          name: Restore & Build
+          name: Nuget Restore
+          command: nuget restore HelloApi\HelloApi.sln
+      - run:
+          name: Build Debug
           command: |
-            nuget restore HelloApi\HelloApi.sln
             msbuild HelloApi\HelloApi.sln /p:Configuration=Debug
       - run:
           name: Run Tests
           command: |
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
             .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
+      - run:
+          name: Build Release
+          command: |
+            msbuild HelloApi\HelloApi.sln /p:Configuration=Release
