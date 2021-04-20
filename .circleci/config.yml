@@ -16,3 +16,4 @@ jobs:
       - run: Write-Host 'Hello, Windows'
       - run: dir
       - run: msbuild -t:restore HelloApi\HelloApi.sln
+      - run: mstest
