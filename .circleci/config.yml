@@ -6,7 +6,7 @@ orbs:
   win: circleci/windows@2.2.0
 
 jobs:
-  hello:
+  build: # name of your job
     executor: win/default # executor type
 
     steps:
