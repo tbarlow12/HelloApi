@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Restore & Build
           command: |
-            msbuild -t:restore HelloApi\HelloApi.sln /p:Configuration=Debug
+            nuget restore HelloApi\HelloApi.sln
             msbuild HelloApi\HelloApi.sln /p:Configuration=Debug
       - run:
           name: Look at files
