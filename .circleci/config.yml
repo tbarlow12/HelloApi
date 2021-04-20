@@ -19,4 +19,6 @@ jobs:
       - run: msbuild -t:restore HelloApi\HelloApi.sln
       - run:
           name: Run Tests
-          command: vstest
+          command: |
+            cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
+            .\vstest.console.exe C:\Users\circleci\project\HelloApi\bin\debug\HelloApi.Tests.dll
