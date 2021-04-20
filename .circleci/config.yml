@@ -14,9 +14,12 @@ jobs:
       # virtual machine environment
       - checkout:
           path: C:\Users\circleci\project
-      - run: Write-Host 'Hello, Windows'
-      - run: dir
       - run: msbuild -t:restore HelloApi\HelloApi.sln
+      - run:
+          name: Recursive dir
+          command: |
+            cd HelloApi
+            dir /b /s /a:-D
       - run:
           name: Run Tests
           command: |
