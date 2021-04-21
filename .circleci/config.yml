@@ -11,7 +11,13 @@ jobs:
     description: Test interaction with Azure CLI
     executor: azure-cli/azure-docker
     steps:
-      - azure-cli/login-with-service-principal
+      # - azure-cli/login-with-service-principal
+      - run:
+          name: az login
+          command: az login -u $Env:AZURE_CLIENT_ID -p $Env:AZURE_CLIENT_SECRET -t $Env:AZURE_TENANT_ID
+      - run:
+          name: set subscription
+          command: az account set -s $Env:AZURE_SUBSCRIPTION_ID
       - run:
           name: List all resources
           command: az resource list -g $Env:TEST_RESOURCE_GROUP
