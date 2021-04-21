@@ -19,6 +19,7 @@ jobs:
       - azure-cli/login-with-service-principal
       - checkout:
           path: C:\Users\circleci\project
+      - run: ls
       - run:
           name: List Azure Resources
           command: sh ./scripts/azList.sh
