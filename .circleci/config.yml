@@ -19,10 +19,10 @@ jobs:
       - azure-cli/login-with-service-principal
       - run:
           name: set subscription
-          command: az account set -s $Env:AZURE_SUBSCRIPTION_ID
+          command: az account set -s $AZURE_SUBSCRIPTION_ID
       - run:
           name: List all resources
-          command: az resource list -g $Env:TEST_RESOURCE_GROUP
+          command: az resource list -g $TEST_RESOURCE_GROUP
 
   test_env_vars:
     description: Testing environment variables
