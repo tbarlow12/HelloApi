@@ -19,10 +19,12 @@ jobs:
       - azure-cli/login-with-service-principal
       - checkout:
           path: C:\Users\circleci\project
-      - run: ls
       - run:
-          name: List Azure Resources
-          command: sh ./scripts/azList.sh
+          name: set subscription
+          command: az account set -s $AZURE_SUBSCRIPTION_ID
+      - run:
+          name: List all resources
+          command: az resource list -g $TEST_RESOURCE_GROUP
 
   test_env_vars:
     description: Testing environment variables
