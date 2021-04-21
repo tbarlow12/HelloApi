@@ -12,8 +12,8 @@ jobs:
 
     steps:
       - run: Write-Host "Deploy App"
-      - run: Write-Host %TEST_VALUE_BOOLEAN%
       - run: Write-Host $Env:TEST_VALUE_BOOLEAN
+      - run: Write-Host $Env:TEST_VALUE_NUMBER
 
   build_and_test: # name of your job
     description: Build & Test
