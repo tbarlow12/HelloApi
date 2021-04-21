@@ -4,6 +4,7 @@ version: 2.1 # Use v2.1 to enable orb usage.
 # need to start using the Windows executor.
 orbs:
   win: circleci/windows@2.2.0
+  azure-cli: circleci/azure-cli@1.1.0
 
 jobs:
   test_env_vars:
