@@ -11,6 +11,8 @@ jobs:
     executor: win/default
 
     steps:
+      - checkout:
+          path: C:\Users\circleci\project
       - run:
           name: Run a script
           command: pwsh ./scripts/sayHello.ps1
