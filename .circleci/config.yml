@@ -21,7 +21,7 @@ jobs:
           path: C:\Users\circleci\project
       - run:
           name: List Azure Resources
-          command: sh scripts/azList.sh
+          command: sh ./scripts/azList.sh
 
   test_env_vars:
     description: Testing environment variables
