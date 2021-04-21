@@ -9,7 +9,7 @@ orbs:
 jobs:
   test_azure:
     description: Test interaction with Azure CLI
-    executor: azure-cli/default
+    executor: azure-cli/azure-docker
     steps:
       - azure-cli/login-with-service-principal
       - run:
