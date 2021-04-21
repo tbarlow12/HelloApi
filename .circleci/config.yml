@@ -7,6 +7,15 @@ orbs:
   azure-cli: circleci/azure-cli@1.1.0
 
 jobs:
+  test_azure:
+    description: Test interaction with Azure CLI
+    executor: azure-cli/default
+    steps:
+      - azure-cli/login-with-service-principal
+      - run:
+          name: List all resources
+          command: az resource list -g $Env:TEST_RESOURCE_GROUP
+
   test_env_vars:
     description: Testing environment variables
     executor: win/default
@@ -71,7 +80,8 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - test_env_vars
+      - test_azure
+      # - test_env_vars
       # - build_and_test
       # - build_release:
       #     requires:
