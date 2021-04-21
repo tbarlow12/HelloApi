@@ -6,6 +6,15 @@ orbs:
   win: circleci/windows@2.2.0
 
 jobs:
+  test_env_vars:
+    description: Testing environment variables
+    executor: win/default
+
+    steps:
+      - run: Write-Host "Deploy App"
+      - run: Write-Host %TEST_VALUE_BOOLEAN%
+      - run: Write-Host $Env:TEST_VALUE_BOOLEAN
+
   build_and_test: # name of your job
     description: Build & Test
     executor: win/default # executor type
@@ -50,12 +59,12 @@ jobs:
     steps:
       - checkout:
           path: C:\Users\circleci\project
-      - run: Write-Host "Deploy App"
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
+      - test_env_vars
       - build_and_test
       - build_release:
           requires:
