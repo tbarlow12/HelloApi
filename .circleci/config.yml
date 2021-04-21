@@ -16,7 +16,7 @@ jobs:
       - run: Write-Host $Env:TEST_VALUE_NUM
       - run:
           name: Run a script
-          command: .\scripts\sayHello.ps1
+          command: pwsh .\scripts\sayHello.ps1
 
   build_and_test: # name of your job
     description: Build & Test
