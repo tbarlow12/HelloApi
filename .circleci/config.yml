@@ -17,12 +17,11 @@ jobs:
       #     command: az login -u $AZURE_CLIENT_URL -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
       # Needs AZURE_SP_TENANT, AZURE_SP (url) and AZURE_SP_PASSWORD env vars
       - azure-cli/login-with-service-principal
+      - checkout:
+          path: C:\Users\circleci\project
       - run:
-          name: set subscription
-          command: az account set -s $AZURE_SUBSCRIPTION_ID
-      - run:
-          name: List all resources
-          command: az resource list -g $TEST_RESOURCE_GROUP
+          name: List Azure Resources
+          command: sh scripts/azList.sh
 
   test_env_vars:
     description: Testing environment variables
