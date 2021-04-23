@@ -103,7 +103,8 @@ jobs:
       - run:
           name: terraform
           command: |
-            ls
+            cd terraform
+            terraform apply out.tfplan
       - persist_to_workspace:
           root: .
           paths:
