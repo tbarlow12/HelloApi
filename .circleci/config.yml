@@ -1,0 +1,62 @@
+version: 2.1 # Use v2.1 to enable orb usage.
+
+# The Windows orb gives you everything you
+# need to start using the Windows executor.
+orbs:
+  win: circleci/windows@2.2.0
+
+
+workflows:
+  version: 2
+
+  quality_gates:
+    jobs:
+      - build_and_test
+  deploy:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: master
+
+jobs:
+  build_and_test: # name of your job
+    description: Build & Test
+    executor: win/default # executor type
+    steps:
+      # Commands are run in a Windows
+      # virtual machine environment
+      - checkout:
+          path: C:\Users\circleci\project
+      - run:
+          name: Nuget Restore
+          command: nuget restore HelloApi\HelloApi.sln
+      - run:
+          name: Build Debug
+          command: |
+            msbuild HelloApi\HelloApi.sln /p:Configuration=Debug
+      - run:
+          name: Run Tests
+          command: |
+            cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
+            .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
+  
+  build_and_deploy: # name of your job  
+    description: Build Release & Deploy
+    executor: win/default # executor type
+
+    steps:
+      # Commands are run in a Windows
+      # virtual machine environment
+      - checkout:
+          path: C:\Users\circleci\project
+      - run:
+          name: Nuget Restore
+          command: nuget restore HelloApi\HelloApi.sln
+      - run:
+          name: Build Release
+          command: |
+            msbuild HelloApi\HelloApi.sln /p:Configuration=Release
+      - run:
+          name: Deploy
+          command: Write-Host "Deploying..."
