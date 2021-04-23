@@ -6,6 +6,18 @@ orbs:
   win: circleci/windows@2.2.0
 
 
+workflows:
+  version: 2
+
+  quality_gates:
+    jobs:
+      - build_and_test
+  deploy:
+    jobs:
+      - build_and_deploy:
+          filters:
+            branches:
+              only: master
 
 jobs:
   build_and_test: # name of your job
@@ -48,17 +60,3 @@ jobs:
       - run:
           name: Deploy
           command: Write-Host "Deploying..."
-
-workflows:
-  version: 2
-
-  quality_gates:
-    jobs:
-      - build_and_test
-  deploy:
-    jobs:
-      - build_and_test
-      - build_and_deploy:
-          filters:
-            branches:
-              only: master
