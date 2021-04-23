@@ -23,7 +23,7 @@ workflows:
   quality_gates:
     jobs:
       - build_and_test
-      
+
   deploy:
     jobs:
       - build_and_deploy:
@@ -83,6 +83,7 @@ jobs:
           name: terraform init & plan
           command: |
             cd terraform
+            rm -rf .terraform
             terraform init \
               -backend-config='resource_group_name=TERRAFORM_RESOURCE_GROUP_NAME' \
               -backend-config='storage_account_name=TERRAFORM_STORAGE_ACCOUNT_NAME' \
