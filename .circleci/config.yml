@@ -9,12 +9,21 @@ orbs:
 workflows:
   version: 2
 
-  terraform: 
+  terraform_plan_apply:
     jobs:
       - plan-apply
+      - hold-apply:
+          type: approval
+          requires:
+            - plan-apply
+      - apply:
+          requires:
+            - hold-apply
+
   quality_gates:
     jobs:
       - build_and_test
+      
   deploy:
     jobs:
       - build_and_deploy:
@@ -79,7 +88,23 @@ jobs:
               -backend-config='storage_account_name=TERRAFORM_STORAGE_ACCOUNT_NAME' \
               -backend-config='container_name=TERRAFORM_CONTAINER_NAME' \
               -backend-config='key=TERRAFORM_KEY'
+            terraform workspace new dev
+            terraform workspace select dev
             terraform plan -out tfapply -var-file variables.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  apply:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform
+          command: |
+            terraform apply -auto-approve tfapply
       - persist_to_workspace:
           root: .
           paths:
