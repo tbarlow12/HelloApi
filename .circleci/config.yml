@@ -74,7 +74,7 @@ jobs:
           name: terraform init & plan
           command: |
             cd terraform
-            terraform init
+            terraform init \
               -backend-config='resource_group_name=nemandal-test-terraform' \
               -backend-config='storage_account_name=nemandalterraformtest' \
               -backend-config='container_name=terraformtest' \
