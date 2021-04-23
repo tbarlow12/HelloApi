@@ -75,3 +75,9 @@ _[Ss]cripts
 *.dot[Cc]over
 
 .vs/
+
+.terraform/
+.terraform.*
+*.tfvars
+*.tfplan
+*.tfstate
