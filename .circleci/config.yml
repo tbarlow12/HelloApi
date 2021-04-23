@@ -74,7 +74,11 @@ jobs:
           name: terraform init & plan
           command: |
             cd terraform
-            terraform init -backend-config backend.tfvars
+            terraform init
+              -backend-config='resource_group_name=nemandal-test-terraform' \
+              -backend-config='storage_account_name=nemandalterraformtest' \
+              -backend-config='container_name=terraformtest' \
+              -backend-config='key=terraform.tfstate'
             terraform plan -out tfapply -var-file variables.tfvars
       - persist_to_workspace:
           root: .
