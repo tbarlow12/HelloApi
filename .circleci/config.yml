@@ -9,6 +9,9 @@ orbs:
 workflows:
   version: 2
 
+  terraform: 
+    jobs:
+      - plan-apply
   quality_gates:
     jobs:
       - build_and_test
