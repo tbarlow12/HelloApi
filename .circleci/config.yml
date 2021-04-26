@@ -11,10 +11,13 @@ workflows:
 
   terraform_plan_apply:
     jobs:
-      - plan-apply
+      - initialize
+      - plan:
+          requires:
+            - initialize
       - validate:
           requires: 
-            - plan-apply
+            - plan
       - hold-apply:
           type: approval
           requires:
@@ -76,16 +79,15 @@ jobs:
           name: Deploy
           command: Write-Host "Deploying..."
           
-  plan-apply:
+  initialize:
     working_directory: ~/project
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
       - run:
-          name: terraform init & plan
+          name: terraform init
           command: |
-            ls
             cd terraform
             rm -rf .terraform
             terraform init \
@@ -98,7 +100,23 @@ jobs:
           root: .
           paths:
             - .
-   
+
+  plan:
+    working_directory: ~/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform plan
+          command: |
+            cd terraform
+            terraform plan -out out.tfplan -var-file variables.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
   validate:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
@@ -108,7 +126,6 @@ jobs:
       - run:
           name: terraform validate
           command: |
-            ls
             cd terraform
             terraform validate
       - persist_to_workspace:
@@ -125,7 +142,6 @@ jobs:
       - run:
           name: terraform apply
           command: |
-            ls
             cd terraform
             terraform apply out.tfplan
       - persist_to_workspace:
