@@ -86,10 +86,10 @@ jobs:
             echo $TERRAFORM_RESOURCE_GROUP_NAME
             rm -rf .terraform
             terraform init \
-              -backend-config='resource_group_name=${TERRAFORM_RESOURCE_GROUP_NAME}' \
-              -backend-config='storage_account_name=${TERRAFORM_STORAGE_ACCOUNT_NAME}' \
-              -backend-config='container_name=${TERRAFORM_CONTAINER_NAME}' \
-              -backend-config='key=${TERRAFORM_KEY}'
+              -backend-config='resource_group_name="$TERRAFORM_RESOURCE_GROUP_NAME"' \
+              -backend-config='storage_account_name="$TERRAFORM_STORAGE_ACCOUNT_NAME"' \
+              -backend-config='container_name="$TERRAFORM_CONTAINER_NAME"' \
+              -backend-config='key="$TERRAFORM_KEY"'
             terraform plan -out out.tfplan -var-file variables.tfvars
       - persist_to_workspace:
           root: .
