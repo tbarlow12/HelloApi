@@ -83,7 +83,6 @@ jobs:
           name: terraform init & plan
           command: |
             TERRAFORM_RESOURCE_GROUP_NAME=${TERRAFORM_RESOURCE_GROUP_NAME}
-            TERRAFORM_STORAGE_ACCOUNT_NAME=${TERRAFORM_STORAGE_ACCOUNT_NAME}
             TERRAFORM_CONTAINER_NAME=${TERRAFORM_CONTAINER_NAME}
             TERRAFORM_KEY=${TERRAFORM_KEY}
             cd terraform
