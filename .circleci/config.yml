@@ -11,10 +11,7 @@ workflows:
 
   terraform_plan_apply:
     jobs:
-      - plan-apply: 
-          filters:
-            branches:
-              only: master
+      - plan-apply
       - hold-apply:
           type: approval
           requires:
