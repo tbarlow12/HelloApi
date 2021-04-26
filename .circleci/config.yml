@@ -95,7 +95,7 @@ jobs:
               -backend-config='storage_account_name=nemandalterraformtest' \
               -backend-config='container_name=terraformtest' \
               -backend-config='key=terraform.tfstate'
-            terraform plan -out out.tfplan -var-file variables.tfvars
+            terraform plan -out out.tfplan
       - persist_to_workspace:
           root: .
           paths:
