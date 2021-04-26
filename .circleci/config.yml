@@ -32,7 +32,7 @@ workflows:
               only: master
 
 jobs:
-  build-test: # name of your job
+  build-and-test: # name of your job
     description: Build & Test
     executor: win/default # executor type
     steps:
@@ -53,7 +53,7 @@ jobs:
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
             .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
   
-  build-deploy: # name of your job  
+  build-and-deploy: # name of your job  
     description: Build Release & Deploy
     executor: win/default # executor type
 
@@ -85,10 +85,10 @@ jobs:
             cd terraform
             rm -rf .terraform
             terraform init \
-              -backend-config='resource_group_name=nemandal-test-terraform' \
-              -backend-config='storage_account_name=nemandalterraformtest' \
-              -backend-config='container_name=terraformtest' \
-              -backend-config='key=terraform.tfstate'
+              -backend-config='resource_group_name=$TERRAFORM_RESOURCE_GROUP_NAME' \
+              -backend-config='storage_account_name=$TERRAFORM_STORAGE_ACCOUNT_NAME' \
+              -backend-config='container_name=$TERRAFORM_CONTAINER_NAME' \
+              -backend-config='key=$TERRAFORM_KEY'
             terraform plan -out out.tfplan -var-file variables.tfvars
       - persist_to_workspace:
           root: .
