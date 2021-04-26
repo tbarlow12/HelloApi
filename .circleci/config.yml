@@ -83,6 +83,7 @@ jobs:
           name: terraform init & plan
           command: |
             cd terraform
+            echo $TERRAFORM_RESOURCE_GROUP_NAME
             rm -rf .terraform
             terraform init \
               -backend-config='resource_group_name=${TERRAFORM_RESOURCE_GROUP_NAME}' \
