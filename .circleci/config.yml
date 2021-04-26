@@ -97,7 +97,7 @@ jobs:
           paths:
             - .
    
-   validate: 
+  validate: 
     working_directory: ~/project
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
