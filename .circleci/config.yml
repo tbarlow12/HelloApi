@@ -11,8 +11,8 @@ workflows:
 
   terraform_plan_apply:
     jobs:
-      - validate
       - plan-apply
+      - validate
       - hold-apply:
           type: approval
           requires:
@@ -97,17 +97,17 @@ jobs:
           paths:
             - .
    
-  validate: 
-    working_directory: ~/project
+  validate:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - attach_workspace:
           at: .
       - run:
-          name: terraform init & plan
+          name: terraform validate
           command: |
-            cd terraform 
+            ls
+            cd terraform
             terraform validate
       - persist_to_workspace:
           root: .
@@ -121,7 +121,7 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: terraform
+          name: terraform apply
           command: |
             ls
             cd terraform
