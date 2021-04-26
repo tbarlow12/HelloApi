@@ -1,0 +1,2 @@
+BUSINESS_UNIT = "az"
+APP_NAME = "tf"

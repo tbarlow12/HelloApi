@@ -9,18 +9,30 @@ orbs:
 workflows:
   version: 2
 
+  terraform_plan_apply:
+    jobs:
+      - plan-apply
+      - hold-apply:
+          type: approval
+          requires:
+            - plan-apply
+      - apply:
+          requires:
+            - hold-apply
+
   quality_gates:
     jobs:
-      - build_and_test
+      - build-test
+
   deploy:
     jobs:
-      - build_and_deploy:
+      - build-deploy:
           filters:
             branches:
               only: master
 
 jobs:
-  build_and_test: # name of your job
+  build-test: # name of your job
     description: Build & Test
     executor: win/default # executor type
     steps:
@@ -41,7 +53,7 @@ jobs:
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
             .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
   
-  build_and_deploy: # name of your job  
+  build-deploy: # name of your job  
     description: Build Release & Deploy
     executor: win/default # executor type
 
@@ -60,3 +72,40 @@ jobs:
       - run:
           name: Deploy
           command: Write-Host "Deploying..."
+
+  plan-apply:
+    working_directory: ~/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform init & plan
+          command: |
+            cd terraform
+            rm -rf .terraform
+            terraform init \
+              -backend-config='resource_group_name=nemandal-test-terraform' \
+              -backend-config='storage_account_name=nemandalterraformtest' \
+              -backend-config='container_name=terraformtest' \
+              -backend-config='key=terraform.tfstate'
+            terraform plan -out out.tfplan -var-file variables.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  apply:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform
+          command: |
+            cd terraform
+            terraform apply out.tfplan
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
