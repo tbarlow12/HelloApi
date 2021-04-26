@@ -32,7 +32,7 @@ workflows:
               only: master
 
 jobs:
-  build_and_test: # name of your job
+  build-test: # name of your job
     description: Build & Test
     executor: win/default # executor type
     steps:
