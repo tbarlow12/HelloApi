@@ -77,6 +77,11 @@ jobs:
     working_directory: ~/project
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    environment: 
+      TERRAFOR_RG: ${TERRAFORM_RG}
+      STORAG_ACCOUNT_NAME: ${STORAGE_ACCOUNT_NAME}
+      CONTAINE_NAME: ${CONTAINER_NAME}
+      TERRAFOR_KEY: ${TERRAFORM_KEY}
     steps:
       - checkout
       - run:
@@ -85,10 +90,10 @@ jobs:
             cd terraform
             rm -rf .terraform
             terraform init \
-              -backend-config='resource_group_name=${TERRAFORM_RG}' \
-              -backend-config='storage_account_name=${STORAGE_ACCOUNT_NAME}' \
-              -backend-config='container_name=${CONTAINER_NAME}' \
-              -backend-config='key=${TERRAFORM_KEY}'
+              -backend-config='resource_group_name=${TERRAFOR_RG}' \
+              -backend-config='storage_account_name=${STORAG_ACCOUNT_NAME}' \
+              -backend-config='container_name=${CONTAINE_NAME}' \
+              -backend-config='key=${TERRAFOR_KEY}'
             terraform plan -out out.tfplan -var-file variables.tfvars
       - persist_to_workspace:
           root: .
