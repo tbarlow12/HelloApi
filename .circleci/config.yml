@@ -11,6 +11,7 @@ workflows:
 
   terraform_plan_apply:
     jobs:
+      - validate
       - plan-apply
       - hold-apply:
           type: approval
@@ -73,12 +74,28 @@ jobs:
           name: Deploy
           command: Write-Host "Deploying..."
 
-  plan-apply:
+  validate: 
     working_directory: ~/project
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
       - checkout
+      - run:
+          name: terraform init & plan
+          command: |
+            ls
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+          
+  plan-apply:
+    working_directory: ~/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: terraform init & plan
           command: |
