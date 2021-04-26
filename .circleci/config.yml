@@ -11,7 +11,10 @@ workflows:
 
   terraform_plan_apply:
     jobs:
-      - plan-apply
+      - plan-apply: 
+          filters:
+            branches:
+              only: master
       - hold-apply:
           type: approval
           requires:
@@ -22,11 +25,11 @@ workflows:
 
   quality_gates:
     jobs:
-      - build-test
+      - build-and-test
 
   deploy:
     jobs:
-      - build-deploy:
+      - build-and-deploy:
           filters:
             branches:
               only: master
