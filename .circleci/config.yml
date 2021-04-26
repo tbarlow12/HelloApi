@@ -12,11 +12,13 @@ workflows:
   terraform_plan_apply:
     jobs:
       - plan-apply
-      - validate
+      - validate:
+          requires: 
+            - plan-apply
       - hold-apply:
           type: approval
           requires:
-            - plan-apply
+            - validate
       - apply:
           requires:
             - hold-apply
