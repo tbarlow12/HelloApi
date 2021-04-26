@@ -1,11 +1,11 @@
 variable "BUSINESS_UNIT" {
   type = string
-  default = "contoso"
+  default = "az"
 }
 
 variable "APP_NAME" {
   type = string
-  default = "processing"
+  default = "tf"
 }
 
 variable "REGIONS" {
