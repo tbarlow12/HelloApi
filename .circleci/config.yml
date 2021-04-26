@@ -85,6 +85,7 @@ jobs:
             TERRAFORM_RG=${TERRAFORM_RG}
             TERRAFORM_CONTAINER_NAME=${TERRAFORM_CONTAINER_NAME}
             STORAGE_ACCOUNT_NAME=${STORAGE_ACCOUNT_NAME}
+            echo STORAGE_ACCOUNT_NAME
             TERRAFORM_KEY=${TERRAFORM_KEY}
             cd terraform
             rm -rf .terraform
