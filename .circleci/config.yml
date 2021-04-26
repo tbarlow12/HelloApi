@@ -82,6 +82,7 @@ jobs:
       - run:
           name: terraform init & plan
           command: |
+            ls
             cd terraform
             rm -rf .terraform
             terraform init \
