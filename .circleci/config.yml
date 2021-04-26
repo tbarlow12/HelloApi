@@ -106,7 +106,8 @@ jobs:
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: terraform plan
           command: |
