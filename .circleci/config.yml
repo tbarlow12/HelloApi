@@ -58,7 +58,7 @@ jobs:
     executor: win/default # executor type
 
     steps:
-      # Commands are runs in a Windows
+      # Commands are run in a Windows
       # virtual machine environment
       - checkout:
           path: C:\Users\circleci\project
