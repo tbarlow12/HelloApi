@@ -82,14 +82,15 @@ jobs:
       - run:
           name: terraform init & plan
           command: |
-            TERRAFORM_RESOURCE_GROUP_NAME=${TERRAFORM_RESOURCE_GROUP_NAME}
+            TERRAFORM_RG=${TERRAFORM_RG}
             TERRAFORM_CONTAINER_NAME=${TERRAFORM_CONTAINER_NAME}
+            STORAGE_ACCOUNT_NAME=${STORAGE_ACCOUNT_NAME}
             TERRAFORM_KEY=${TERRAFORM_KEY}
             cd terraform
             rm -rf .terraform
             terraform init \
-              -backend-config='resource_group_name=TERRAFORM_RESOURCE_GROUP_NAME' \
-              -backend-config='storage_account_name=nemandalterraformtest' \
+              -backend-config='resource_group_name=TERRAFORM_RG' \
+              -backend-config='storage_account_name=STORAGE_ACCOUNT_NAME' \
               -backend-config='container_name=TERRAFORM_CONTAINER_NAME' \
               -backend-config='key=TERRAFORM_KEY'
             terraform plan -out out.tfplan -var-file variables.tfvars
