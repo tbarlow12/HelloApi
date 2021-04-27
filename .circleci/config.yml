@@ -17,7 +17,7 @@ jobs: # basic units of work in a run
           command: echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
       - run: # print the name of the branch we're on
           name: "What branch am I on?"
-          command: echo ${CIRCLE_BRANCH}
+          command: echo "This is my branch ${CIRCLE_BRANCH}""
       # Run another step, the same as above; note that you can
       # invoke environment variable without curly braces.
       - run:
@@ -28,10 +28,13 @@ jobs: # basic units of work in a run
           command: echo ${MY_ENV_VAR}
       - run:
           name: "Print an env var stored in the Project"
-          command: echo ${PROJECT_ENV_VAR}
+          command: echo ${CONTAINER_NAME}
       - run:
           name: "Print an env var stored in a Context"
           command: echo ${CONTEXT_ENV_VAR}
+      - run:
+          name: "Print a number"
+          command: echo ${TEST_NUMBER}
 
 workflows: # a single workflow with a single job called build
   build:
