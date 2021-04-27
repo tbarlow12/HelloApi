@@ -81,11 +81,7 @@ jobs:
       - checkout
       - run:
           name: terraform init & plan
-          command: |
-            echo ${STORAGE_ACCOUNT_NAME} 
-            echo ${CONTAINER_NAME} 
-            echo ${TERRAFORM_KEY}
-            echo ${TERRAFORM_RG}  
+          command: | 
             cd terraform
             rm -rf .terraform
             terraform init \
