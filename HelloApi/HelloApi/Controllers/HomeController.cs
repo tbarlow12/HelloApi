@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HelloApi.Loggers;
 
 namespace HelloApi.Controllers
 {
@@ -10,9 +11,14 @@ namespace HelloApi.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            using (var eventLogger = (IEventLogger) HttpContext.GetService(typeof(IEventLogger)))
+            {
+                eventLogger.LogEvent("SampleEvent", "Someone visited the homepage!");
 
-            return View();
+                ViewBag.Title = "Home Page";
+
+                return View();
+            }
         }
     }
 }
