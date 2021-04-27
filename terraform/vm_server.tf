@@ -12,11 +12,11 @@ resource "azurerm_subnet" "subnet_server" {
 }
 
 resource "azurerm_public_ip" "serverPublicIP" {
-  name                = "serverPublicIP"
+  name                = "serverPublicIp"
   location            = var.location
   resource_group_name = azurerm_resource_group.myterraformgroup.name
   allocation_method   = "Dynamic"
-  domain_name_label   = "jefftessserver" # random_string.fqdn.result
+  domain_name_label   = "nemandaltessserver" # random_string.fqdn.result
 
   tags = var.tags
 
