@@ -3,6 +3,6 @@ namespace HelloApi.Loggers
 {
     public interface IEventLogger : IDisposable
     {
-        public void LogEvent(string eventName, string eventData);
+        void LogEvent(string eventName, string eventData);
     }
 }
