@@ -89,7 +89,6 @@ jobs:
             cd terraform
             rm -rf .terraform
             terraform init -input=false 
-            terraform plan -out out.tfplan
       - persist_to_workspace:
           root: .
           paths:
