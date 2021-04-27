@@ -18,6 +18,22 @@ workflows:
           filters:
             branches:
               only: master
+  terraform:
+    jobs:
+      - initialize
+      - plan:
+          requires:
+            - initialize
+      - validate:
+          requires: 
+            - plan
+      - hold-apply:
+          type: approval
+          requires:
+            - validate
+      - apply:
+          requires:
+            - hold-apply
 
 jobs:
   build_and_test: # name of your job
@@ -60,3 +76,74 @@ jobs:
       - run:
           name: Deploy
           command: Write-Host "Deploying..."
+
+            initialize:
+    working_directory: ~/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform init
+          command: |
+            cd terraform
+            rm -rf .terraform
+            terraform init \
+              -backend-config="resource_group_name=$TERRAFORM_RG" \
+              -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
+              -backend-config="container_name=$CONTAINER_NAME" \
+              -backend-config="key=$TERRAFORM_KEY"
+            terraform plan -out out.tfplan -var-file variables.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  plan:
+    working_directory: ~/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform plan
+          command: |
+            cd terraform
+            terraform plan -out out.tfplan -var-file variables.tfvars
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  validate:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform validate
+          command: |
+            cd terraform
+            terraform validate
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  
+  apply:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform apply
+          command: |
+            cd terraform
+            terraform apply out.tfplan
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
