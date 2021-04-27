@@ -17,7 +17,7 @@ jobs: # basic units of work in a run
           command: echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
       - run: # print the name of the branch we're on
           name: "What branch am I on?"
-          command: echo "This is my branch ${CIRCLE_BRANCH}""
+          command: echo ${CIRCLE_BRANCH}
       # Run another step, the same as above; note that you can
       # invoke environment variable without curly braces.
       - run:
