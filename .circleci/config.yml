@@ -35,6 +35,9 @@ jobs: # basic units of work in a run
       - run:
           name: "Print a number"
           command: echo ${TEST_NUMBER}
+      - run:
+          name: "Print tf SPN"
+          command: echo ${ARM_CLIENT_ID}
 
 workflows: # a single workflow with a single job called build
   build:
