@@ -77,11 +77,6 @@ jobs:
     working_directory: ~/project
     docker:
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
-    environment: 
-      TERRAFORM_RG: nemandal-test-terraform
-      STORAGE_ACCOUNT_NAME: nemandalterraformtest
-      CONTAINER_NAME: terraformtest
-      TERRAFORM_KEY: terraform.tfstate
     steps:
       - checkout
       - run:
@@ -91,7 +86,7 @@ jobs:
             cd terraform
             rm -rf .terraform
             terraform init \
-              -backend-config='resource_group_name=nemandal-test-terraform' \
+              -backend-config='resource_group_name=' \
               -backend-config='storage_account_name=nemandalterraformtest' \
               -backend-config='container_name=terraformtest' \
               -backend-config='key=terraform.tfstate'
