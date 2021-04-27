@@ -20,21 +20,8 @@ provider "azurerm" {
 }
 
 resource "azurerm_virtual_network" "myterraformnetwork" {
-  name                = "myVnet"
+  name                = "projectVNet"
   address_space       = ["10.0.0.0/16"]
-  location            = var.location
-  resource_group_name = azurerm_resource_group.myterraformgroup.name
-
-  tags = var.tags
-
-  depends_on = [
-    azurerm_resource_group.myterraformgroup
-  ]
-}
-
-# Create Network Security Group and rule
-resource "azurerm_network_security_group" "myterraformnsg" {
-  name                = "myNetworkSecurityGroup"
   location            = var.location
   resource_group_name = azurerm_resource_group.myterraformgroup.name
 
@@ -57,5 +44,12 @@ resource "random_id" "randomId" {
   depends_on = [
     azurerm_resource_group.myterraformgroup
   ]
+}
+
+resource "random_string" "fqdn" {
+  length  = 6
+  special = false
+  upper   = false
+  number  = false
 }
 
