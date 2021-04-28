@@ -12,7 +12,7 @@ namespace HelloApi
         {
             var statsdConfig = new StatsdConfig()
 	        {
-                StatsdServerName = "https://trace.agent.datadoghq.com",
+                StatsdServerName = "127.0.0.1",
                 StatsdPort = 8126,
 	        };
             var eventLogger = new DataDogStatsdEventLogger(statsdConfig);
