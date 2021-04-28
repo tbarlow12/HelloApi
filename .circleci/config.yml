@@ -5,13 +5,17 @@ version: 2.1 # Use v2.1 to enable orb usage.
 orbs:
   win: circleci/windows@2.2.0
 
-
 workflows:
   version: 2
 
   quality_gates:
     jobs:
       - build_and_test
+      - terratest:
+          context:
+            # Contains Terraform service principal for dev environment
+            # Will need to authenticate with Azure
+            - tf-spn-dev
   deploy:
     jobs:
       - build_and_deploy:
@@ -41,6 +45,22 @@ jobs:
             cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\common7\ide\extensions\TestPlatform"
             .\vstest.console.exe "C:\Users\circleci\project\HelloApi\HelloApi.Tests\bin\debug\HelloApi.Tests.dll"
   
+  terratest:
+    description: Run Terratest
+    working_directory: ~/project
+    docker:
+        # Temporarily pointing at our own public Docker image
+        # For any production use case, will need to figure out
+        # pointing to a private registry or publishing image from
+        # a more official, maintained Docker hub account
+      - image: tannerbarlow/golang-latest-terraform-15.1
+    steps:
+      - checkout
+      - run:
+          name: Run Terratest Unit Tests
+          command: |
+            sh ./scripts/run_tf_tests.sh
+
   build_and_deploy: # name of your job  
     description: Build Release & Deploy
     executor: win/default # executor type
