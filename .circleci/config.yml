@@ -106,11 +106,11 @@ jobs:
           command: |
             cd terraform
             terraform plan \
-              -var 'location=westus2' \
-              -var 'tags={environment="dev"}' \
-              -var 'resource_group_name=rg-vm-test-nemandal' \
-              -var 'admin_user=azureuser' \
-              -var 'admin_password=Adm1n_Pass' \
+              -var "location=${REGION}" \
+              -var 'tags={environment="${ENV_DEV}"}' \
+              -var 'resource_group_name=${RESOURCE_GROUP_NAME}' \
+              -var 'admin_user=${ADMIN_USER}' \
+              -var 'admin_password={$ADMIN_PASSWORD}' \
               -out out.tfplan
       - persist_to_workspace:
           root: .
