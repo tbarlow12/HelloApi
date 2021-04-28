@@ -13,10 +13,6 @@ namespace HelloApi
         {
             // Web API configuration and services
 
-            var statsdConfig = new StatsdConfig() { StatsdServerName = "127.0.0.1" };
-            var dogStatsDService = new DataDogStatsdEventLogger(statsdConfig);
-            config.Services.Add(typeof(IEventLogger), dogStatsDService);
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

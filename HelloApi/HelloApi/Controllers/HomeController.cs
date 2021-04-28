@@ -11,14 +11,9 @@ namespace HelloApi.Controllers
     {
         public ActionResult Index()
         {
-            using (var eventLogger = (IEventLogger) HttpContext.GetService(typeof(IEventLogger)))
-            {
-                eventLogger.LogEvent("SampleEvent", "Someone visited the homepage!");
+            ViewBag.Title = "Home Page";
 
-                ViewBag.Title = "Home Page";
-
-                return View();
-            }
+            return View();
         }
     }
 }

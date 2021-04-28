@@ -1,6 +1,8 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using HelloApi.Filters;
+using HelloApi.Loggers;
+using StatsdClient;
 
 namespace HelloApi
 {
@@ -8,7 +10,14 @@ namespace HelloApi
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new EventFilter());
+            var statsdConfig = new StatsdConfig()
+	        {
+                StatsdServerName = "https://trace.agent.datadoghq.com",
+                StatsdPort = 8126,
+	        };
+            var eventLogger = new DataDogStatsdEventLogger(statsdConfig);
+            var logFilter = new LogFilter(eventLogger);
+            filters.Add(logFilter);
             filters.Add(new HandleErrorAttribute());
         }
     }
