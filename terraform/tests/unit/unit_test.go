@@ -8,20 +8,21 @@ import (
 )
 
 var test_variable_values = []struct {
-	test_name string
-	set_variables bool
-	location string
+	test_name           string
+	set_variables       bool
+	location            string
 	resource_group_name string
-	admin_user string
-	admin_password string
-	tags string
+	admin_user          string
+	admin_password      string
+	tags                string
 }{
-	{"input-variables", true, "westus", "my_rg", "admin", "admin_password", "{}" },
+	{"input-variables", true, "westus", "my_rg", "admin", "admin_password", "{}"},
 }
+
 func TestVariables(t *testing.T) {
 	for _, tt := range test_variable_values {
 		t.Run(tt.test_name, func(t *testing.T) {
-			
+
 			location := tt.location
 			resource_group_name := tt.resource_group_name
 			admin_user := tt.admin_user
@@ -51,12 +52,12 @@ func RunResourceValidation(location string, resource_group_name string, admin_us
 	// This is the number of expected Terraform resources being provisioned.
 	//
 	// Note: There may be more Terraform resources provisioned than Azure resources provisioned!
-	expectedTerraformResourceCount := 15
+	expectedTerraformResourceCount := 20
 
 	testFixture := unit.UnitTestFixture{
-		GoTest:                          t,
-		TfOptions:                       utils.TfOptions,
-		ExpectedResourceCount:           expectedTerraformResourceCount,
+		GoTest:                t,
+		TfOptions:             utils.TfOptions,
+		ExpectedResourceCount: expectedTerraformResourceCount,
 	}
 
 	unit.RunUnitTests(&testFixture)

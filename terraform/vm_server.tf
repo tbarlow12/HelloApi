@@ -150,6 +150,10 @@ resource "azurerm_storage_account" "storage_server" {
     azurerm_resource_group.myterraformgroup
   ]
 }
+resource "azurerm_advanced_threat_protection" "storageThreatDetection" {
+  target_resource_id = azurerm_storage_account.storage_server.id
+  enabled            = true
+}
 
 # Create virtual machine
 resource "azurerm_windows_virtual_machine" "vm_server" {
@@ -172,6 +176,11 @@ resource "azurerm_windows_virtual_machine" "vm_server" {
     version   = "latest"
   }
 
+  identity {
+    type = "SystemAssigned" #SystemAssigned, UserAssigned
+    #    identity_ids = []
+  }
+
   computer_name  = "vmserver"
   admin_username = var.admin_user
   admin_password = var.admin_password
@@ -191,4 +200,19 @@ resource "azurerm_windows_virtual_machine" "vm_server" {
     azurerm_network_interface.nic_server,
     azurerm_storage_account.storage_server
   ]
+}
+
+resource "azurerm_security_center_assessment_policy" "vmAP" {
+  display_name = "VM Access Policy"
+  severity     = "Medium"
+  description  = "Medium level access policy for the vm"
+}
+
+resource "azurerm_security_center_assessment" "vmSCA" {
+  assessment_policy_id = azurerm_security_center_assessment_policy.vmAP.id
+  target_resource_id   = azurerm_windows_virtual_machine.vm_server.id
+
+  status {
+    code = "Healthy"
+  }
 }

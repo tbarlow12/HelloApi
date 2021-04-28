@@ -7,29 +7,15 @@ terraform {
   }
 }
 
-resource "azurerm_resource_group" "myterraformgroup" {
-  name     = var.resource_group_name
-  location = var.location
-
-  tags = var.tags
-}
-
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
 }
 
-resource "azurerm_virtual_network" "myterraformnetwork" {
-  name                = "projectVNet"
-  address_space       = ["10.0.0.0/16"]
-  location            = var.location
-  resource_group_name = azurerm_resource_group.myterraformgroup.name
+data "azurerm_client_config" "current" {}
 
-  tags = var.tags
-
-  depends_on = [
-    azurerm_resource_group.myterraformgroup
-  ]
+resource "azurerm_security_center_auto_provisioning" "security_center_auto_provision" {
+  auto_provision = "On"
 }
 
 # Generate random text for a unique storage account name
