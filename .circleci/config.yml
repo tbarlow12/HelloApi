@@ -21,7 +21,25 @@ workflows:
       - build_and_deploy:
           filters:
             branches:
-              only: master
+              only: main
+  iac_deploy_terraform:
+    jobs:
+      - terraform-init-plan-validate:
+          context: 
+            - tf-deploy-dev
+            - tf-spn-dev
+          filters:
+            branches:
+              only: main  
+      - hold-terraform-apply:
+          type: approval
+          requires:
+            - terraform-init-plan-validate
+      - terraform-apply:
+          context: 
+            - tf-spn-dev            
+          requires:
+            - hold-terraform-apply
 
 jobs:
   build_and_test: # name of your job
@@ -80,3 +98,54 @@ jobs:
       - run:
           name: Deploy
           command: Write-Host "Deploying..."
+
+  terraform-init-plan-validate:
+    working_directory: ~/project
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - checkout
+      - run:
+          name: terraform init
+          command: |
+            cd terraform
+            rm -rf .terraform
+            terraform init \
+              -backend-config="resource_group_name=${TF_STATE_RESOURCE_GROUP}" \
+              -backend-config="storage_account_name=${TF_STATE_STORAGE_ACCOUNT}" \
+              -backend-config="container_name=${TF_STATE_CONTAINER_NAME}" \
+              -backend-config="key=${TF_KEY}"
+      - run:
+          name: terraform plan
+          command: |
+            cd terraform
+            terraform plan \
+              -var "location=${REGION}" \
+              -var "tags={environment="\"${ENV}"\"}" \
+              -var "resource_group_name=${RESOURCE_GROUP_NAME}" \
+              -var "admin_user=${ADMIN_USER}" \
+              -var "admin_password=${ADMIN_PASSWORD}" \
+              -out out.tfplan
+      - run:
+          name: terraform validate
+          command: terraform validate       
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  terraform-apply:
+    docker:
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: terraform apply
+          command: |
+            cd terraform
+            terraform apply out.tfplan
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
