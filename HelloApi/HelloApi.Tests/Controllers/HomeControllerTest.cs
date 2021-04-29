@@ -1,7 +1,9 @@
 ﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using HelloApi;
 using HelloApi.Controllers;
+using HelloApi.Loggers;
 
 namespace HelloApi.Tests.Controllers
 {
@@ -11,8 +13,9 @@ namespace HelloApi.Tests.Controllers
         [TestMethod]
         public void Index()
         {
+            var mockEventLogger = new Mock<IEventLogger>();
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(mockEventLogger.Object);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;

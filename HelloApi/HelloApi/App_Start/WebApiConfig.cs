@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using HelloApi.Loggers;
+using StatsdClient;
 
 namespace HelloApi
 {
