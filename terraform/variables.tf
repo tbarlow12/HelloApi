@@ -22,3 +22,12 @@ variable "admin_password" {
   type        = string
   description = "Default password for admin account"
 }
+
+variable "sql_admin_user" {
+  type        = string
+  description = "Username used for admin account for SQL server access"
+}
+variable "sql_admin_password" {
+  type        = string
+  description = "Password used for admin account for SQL server access"
+}

@@ -5,3 +5,5 @@ tags = {
 resource_group_name = "rg-vm-test-dev-tedistef-jeding"
 admin_user = "azureuser"
 admin_password = "something"
+sql_admin_user = "sqluser"
+sql_admin_password = "password"

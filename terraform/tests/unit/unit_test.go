@@ -14,9 +14,11 @@ var test_variable_values = []struct {
 	resource_group_name string
 	admin_user          string
 	admin_password      string
+	sql_admin_user      string
+	sql_admin_password  string
 	tags                string
 }{
-	{"input-variables", true, "westus", "my_rg", "admin", "admin_password", "{}"},
+	{"input-variables", true, "westus", "my_rg", "admin", "admin_password", "sql-admin", "sql_admin_password", "{}"},
 }
 
 func TestVariables(t *testing.T) {
@@ -27,6 +29,8 @@ func TestVariables(t *testing.T) {
 			resource_group_name := tt.resource_group_name
 			admin_user := tt.admin_user
 			admin_password := tt.admin_password
+			sql_admin_user := tt.sql_admin_user
+			sql_admin_password := tt.sql_admin_password
 			tags := tt.tags
 
 			if tt.set_variables {
@@ -34,25 +38,29 @@ func TestVariables(t *testing.T) {
 				utils.SetTfVar("resource_group_name", resource_group_name)
 				utils.SetTfVar("admin_user", admin_user)
 				utils.SetTfVar("admin_password", admin_password)
+				utils.SetTfVar("sql_admin_user", sql_admin_user)
+				utils.SetTfVar("sql_admin_password", sql_admin_password)
 				utils.SetTfVar("tags", tags)
 			} else {
 				utils.UnsetTfVar("location")
 				utils.UnsetTfVar("resource_group_name")
 				utils.UnsetTfVar("admin_user")
 				utils.UnsetTfVar("admin_password")
+				utils.UnsetTfVar("sql_admin_user")
+				utils.UnsetTfVar("sql_admin_password")
 				utils.UnsetTfVar("tags")
 			}
 
-			RunResourceValidation(location, resource_group_name, admin_user, admin_password, t)
+			RunResourceValidation(location, resource_group_name, admin_user, admin_password, sql_admin_user, sql_admin_password, t)
 		})
 	}
 }
 
-func RunResourceValidation(location string, resource_group_name string, admin_user string, admin_password string, t *testing.T) {
+func RunResourceValidation(location string, resource_group_name string, admin_user string, admin_password string, sql_admin_user string, sql_admin_password string, t *testing.T) {
 	// This is the number of expected Terraform resources being provisioned.
 	//
 	// Note: There may be more Terraform resources provisioned than Azure resources provisioned!
-	expectedTerraformResourceCount := 20
+	expectedTerraformResourceCount := 28
 
 	testFixture := unit.UnitTestFixture{
 		GoTest:                t,
