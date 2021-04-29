@@ -1,0 +1,13 @@
+# This provides an environment with golang and terraform
+# both available. Used for running with terratest
+
+FROM golang:latest
+
+RUN apt-get update
+RUN apt-get install unzip
+RUN wget https://releases.hashicorp.com/terraform/0.15.1/terraform_0.15.1_linux_amd64.zip
+RUN unzip terraform_0.15.1_linux_amd64.zip
+RUN rm terraform_0.15.1_linux_amd64.zip
+RUN mv terraform /usr/local/go/bin/terraform
+
+RUN apt-get install git bash openssl
