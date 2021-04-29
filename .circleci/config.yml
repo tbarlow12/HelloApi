@@ -125,7 +125,7 @@ jobs:
               -var "resource_group_name=${RESOURCE_GROUP_NAME}" \
               -var "admin_user=${ADMIN_USER}" \
               -var "admin_password=${ADMIN_PASSWORD}" \
-              -var "sql_admin_user=${SQL_ADMIN_USER} \"
+              -var "sql_admin_user=${SQL_ADMIN_USER}" \
               -var "sql_password=${SQL_ADMIN_PASSWORD}"
               -out out.tfplan
       - run:
