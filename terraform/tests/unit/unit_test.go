@@ -1,6 +1,7 @@
 package unittest
 
 import (
+	"fmt"
 	"terraform/tests/utils"
 	"testing"
 
@@ -57,15 +58,87 @@ func TestVariables(t *testing.T) {
 }
 
 func RunResourceValidation(location string, resource_group_name string, admin_user string, admin_password string, sql_admin_user string, sql_admin_password string, t *testing.T) {
+
+	resourceDescription := unit.ResourceDescription{
+
+		"azurerm_subnet.subnet_server": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "serverSubnet"
+		}`, resource_group_name)),
+
+		"azurerm_network_security_group.myterraformnsg": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "projectNSG"
+		}`, resource_group_name)),
+
+		"azurerm_network_security_rule.in80": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "inbound80"
+		}`, resource_group_name)),
+
+		"azurerm_network_security_rule.in8172": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "inbound8172"
+		}`, resource_group_name)),
+
+		"azurerm_network_security_rule.out80": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "outbound80"
+		}`, resource_group_name)),
+
+		"azurerm_network_security_rule.out8172": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "outbound8172"
+		}`, resource_group_name)),
+
+		"azurerm_public_ip.serverPublicIP": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "serverPublicIP"
+		}`, resource_group_name)),
+
+		"azurerm_storage_account.storage_server": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s"
+		}`, resource_group_name)),
+
+		"azurerm_network_interface.nic_server": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "serverNIC"
+		}`, resource_group_name)),
+
+		"azurerm_advanced_threat_protection.storageThreatDetection": utils.AsMap(t, `{
+			"enabled": true
+		}`),
+
+		"azurerm_windows_virtual_machine.vm_server": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "serverVM"
+		}`, resource_group_name)),
+
+		"azurerm_security_center_assessment_policy.vmAP": utils.AsMap(t, `{
+			"display_name": "VM Access Policy"
+		}`),
+
+		"azurerm_key_vault.projectKeyVault": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "projectKeyVault"
+		}`, resource_group_name)),
+
+		"azurerm_virtual_network.myterraformnetwork": utils.AsMap(t, fmt.Sprintf(`{
+			"resource_group_name": "%s",
+			"name": "projectVNet"
+		}`, resource_group_name)),
+	}
+
 	// This is the number of expected Terraform resources being provisioned.
 	//
 	// Note: There may be more Terraform resources provisioned than Azure resources provisioned!
 	expectedTerraformResourceCount := 28
 
 	testFixture := unit.UnitTestFixture{
-		GoTest:                t,
-		TfOptions:             utils.TfOptions,
-		ExpectedResourceCount: expectedTerraformResourceCount,
+		GoTest:                          t,
+		TfOptions:                       utils.TfOptions,
+		ExpectedResourceCount:           expectedTerraformResourceCount,
+		ExpectedResourceAttributeValues: resourceDescription,
 	}
 
 	unit.RunUnitTests(&testFixture)
