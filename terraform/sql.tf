@@ -8,7 +8,7 @@ locals {
 }
 
 resource "azurerm_sql_server" "primary" {
-  name                         = "sql-hadr-sample-westus"
+  name                         = "sql-hadr-sample-westus-${random_string.fqdn.result}"
   resource_group_name          = azurerm_resource_group.myterraformgroup.name
   location                     = "westus"
   version                      = local.sql_version
@@ -51,7 +51,7 @@ resource "azurerm_mssql_database_extended_auditing_policy" "primary" {
 }
 
 resource "azurerm_sql_server" "secondary" {
-  name                         = "sql-hadr-sample-eastus"
+  name                         = "sql-hadr-sample-eastus-${random_string.fqdn.result}"
   resource_group_name          = azurerm_resource_group.myterraformgroup.name
   location                     = "eastus"
   version                      = local.sql_version
@@ -61,10 +61,6 @@ resource "azurerm_sql_server" "secondary" {
   identity {
     type = "SystemAssigned"
   }
-
-  depends_on = [
-    azurerm_sql_server.primary
-  ]
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "secondary" {
@@ -86,14 +82,10 @@ resource "azurerm_sql_database" "secondary" {
 
   create_mode        = "OnlineSecondary"
   source_database_id = azurerm_sql_database.primary.id
-
-  depends_on = [
-    azurerm_sql_server.secondary
-  ]
 }
 
 resource "azurerm_sql_failover_group" "main" {
-  name                = "sfg-hadr-sample"
+  name                = "sfg-hadr-sample-${random_string.fqdn.result}"
   resource_group_name = azurerm_resource_group.myterraformgroup.name
   server_name         = azurerm_sql_server.primary.name
   databases           = [azurerm_sql_database.primary.id]

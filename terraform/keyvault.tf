@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "projectKeyVault" {
-  name                        = "projectKeyVault"
+  name                        = "projectKeyVault${random_string.fqdn.result}"
   location                    = var.location
   resource_group_name         = azurerm_resource_group.myterraformgroup.name
   enabled_for_disk_encryption = true

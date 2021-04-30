@@ -118,10 +118,10 @@ func RunResourceValidation(location string, resource_group_name string, admin_us
 			"display_name": "VM Access Policy"
 		}`),
 
-		"azurerm_key_vault.projectKeyVault": utils.AsMap(t, fmt.Sprintf(`{
-			"resource_group_name": "%s",
-			"name": "projectKeyVault"
-		}`, resource_group_name)),
+		// "azurerm_key_vault.projectKeyVault": utils.AsMap(t, fmt.Sprintf(`{
+		// 	"resource_group_name": "%s",
+		// 	"name": "projectKeyVault"
+		// }`, resource_group_name)),
 
 		"azurerm_virtual_network.myterraformnetwork": utils.AsMap(t, fmt.Sprintf(`{
 			"resource_group_name": "%s",
