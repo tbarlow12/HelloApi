@@ -137,13 +137,7 @@
     <Reference Include="Unity.Mvc">
       <HintPath>..\packages\Unity.Mvc.5.11.1\lib\net46\Unity.Mvc.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core">
-      <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.16.1\lib\net45\Moq.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
