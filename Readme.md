@@ -6,9 +6,14 @@ This documentation breaks down the steps to deploy the .net framework app (Hello
 
 ### Step 1: Deploy Azure Resource using terraform script
 
+Make sure to store your backend variables in a `backend.tfvars` file based off [the sample backend.tfvars file](./terraform/backend.tfvars.sample).
+You'll also need to have a `terraform.tfvars` file based off [the saample terraform.tfvars file](./terraform/terraform.tfvars.sample).
+
 ```text
+cd terraform
+terraform init -backend-config backend.tfvars
 terraform workspace new dev
-terraform init
+terraform workspace select dev
 terraform plan --out plan.out
 terraform apply plan.out
 ```

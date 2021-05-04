@@ -216,3 +216,18 @@ resource "azurerm_security_center_assessment" "vmSCA" {
     code = "Healthy"
   }
 }
+
+resource "azurerm_virtual_machine_extension" "vm_script_extension" {
+  name                 = "hostname"
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm_server.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.0"
+
+  # https://docs.datadoghq.com/tracing/setup_overview/setup/dotnet-framework/?tab=environmentvariables#windows-services
+  settings = <<SETTINGS
+    {
+        "commandToExecute": "SET COR_ENABLE_PROFILING=1 && SET COR_PROFILER={846F5F1C-F9AE-4B07-969E-05C26BC060D8}"
+    }
+SETTINGS
+}

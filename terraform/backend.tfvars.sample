@@ -1,0 +1,4 @@
+resource_group_name = "Name of the resource group which stores remote state."
+storage_account_name = "Name of the storage account which stores remote state."
+container_name = "Name of the container which stores remote state."
+key = "String for the key for remote state."
