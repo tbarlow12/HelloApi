@@ -124,8 +124,7 @@ jobs:
           name: terraform workspace
           command: |
             cd terraform
-            terraform workspace new dev
-            terraform workspace select dev 
+            terraform workspace select dev || terraform workspace new dev
       - run:
           name: terraform plan
           command: |
