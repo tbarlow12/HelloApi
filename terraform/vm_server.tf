@@ -224,6 +224,7 @@ resource "azurerm_virtual_machine_extension" "vm_script_extension" {
   type                 = "CustomScript"
   type_handler_version = "2.0"
 
+  # These variables allow MVC tracing to get hooked into DataDog. Read more here:
   # https://docs.datadoghq.com/tracing/setup_overview/setup/dotnet-framework/?tab=environmentvariables#windows-services
   settings = <<SETTINGS
     {
