@@ -132,7 +132,7 @@ func RunResourceValidation(location string, resource_group_name string, admin_us
 	// This is the number of expected Terraform resources being provisioned.
 	//
 	// Note: There may be more Terraform resources provisioned than Azure resources provisioned!
-	expectedTerraformResourceCount := 29
+	expectedTerraformResourceCount := 30
 
 	testFixture := unit.UnitTestFixture{
 		GoTest:                          t,

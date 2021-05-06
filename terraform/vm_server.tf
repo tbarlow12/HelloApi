@@ -232,3 +232,18 @@ resource "azurerm_virtual_machine_extension" "vm_script_extension" {
     }
 SETTINGS
 }
+
+resource "azurerm_virtual_machine_extension" "vm_datadog_agent" {
+  name                 = "datadog"
+  virtual_machine_name = azurerm_windows_virtual_machine.vm_server.name
+  publisher            = "Datadog.Agent"
+  type                 = "DatadogWindowsAgent"
+  type_handler_version = "2.0"
+  auto_upgrade_minor_version = true
+
+  settings = <<SETTINGS
+        {
+          "api_key": "${local.datadog_registration_key}"
+        }
+SETTINGS
+}
